@@ -1,29 +1,23 @@
 import React, {useState} from 'react';
 import './App.css';
-import InputField from "./components/InputField";
-import {Todo} from "./model";
-import TodoList from "./components/TodoList";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Home from "./pages/Home";
+import Series from "./pages/Series";
+import Episode from "./pages/Episode";
+import OnGoing from "./pages/OnGoing";
 
 const App:React.FC = () => {
-  const [todo, setTodo] = useState<string>("");
-  const [todos, setTodos] = useState<Todo[]>([]);
-
-  const handleAdd = (e:React.FormEvent) => {
-    e.preventDefault();
-
-    if (todo) {
-      setTodos([...todos, {id:Date.now(), todo, isDone:false}]);
-      setTodo("");
-    }
-  };
-
-  console.log(todos);
-
   return (
     <div className="App">
-      <span className="heading">Taskify</span>
-        <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd}/>
-        <TodoList todos={todos} setTodos={setTodos}/>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+            <Route path="/series/:series_id" element={<Series />}></Route>
+            <Route path="/series/:series_id/episodes/:episode_id" element={<Episode />}></Route>
+            <Route path="*" element={<OnGoing />}></Route>
+          </Routes>
+        </BrowserRouter>
     </div>
   );
 };
